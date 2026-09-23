@@ -1,0 +1,11 @@
+{
+  "name": "Projects & Todos API",
+  "install": "./mvnw -B -ntp -DskipTests clean package",
+  "terminals": [
+    {
+      "name": "spring-boot-app",
+      "command": "./mvnw -ntp spring-boot:run"
+    }
+  ],
+  "ports": [8080]
+}
