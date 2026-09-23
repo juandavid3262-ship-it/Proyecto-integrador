@@ -3,6 +3,7 @@ package dev.nakano.model.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "todo")
 public class Todo {
 
     @Id
