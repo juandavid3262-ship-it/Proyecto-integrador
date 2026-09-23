@@ -12,7 +12,7 @@ Proyecto Gradle Spring Boot (mismo patrón del zip de referencia).
 ## Estructura
 
 ```
-dev.antoniochacon.nakano
+dev.nakano
 ├── Application
 ├── controller/ProjectController
 ├── model/dto/ProjectDTO, TodoDTO

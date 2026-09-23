@@ -5,7 +5,7 @@ plugins {
 }
 
 // change the group developer to your nickname
-group = "dev.antoniochacon"
+group = "dev.nakano"
 version = "1.0-SNAPSHOT"
 
 repositories {
