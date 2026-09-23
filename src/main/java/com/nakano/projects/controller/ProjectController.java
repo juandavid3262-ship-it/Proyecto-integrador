@@ -27,7 +27,7 @@ public class ProjectController {
 
     /**
      * Lista todos los proyectos con sus atributos (incluye todos).
-     * GET http://localhost:8080/projects
+     * GET http://localhost:8081/projects
      */
     @GetMapping
     public ResponseEntity<List<Project>> listarTodosLosProyectos() {
