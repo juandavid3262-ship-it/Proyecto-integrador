@@ -1,21 +1,22 @@
-# Trabajo Arquitectura — Projects API
+# nakano
 
-Estructura tipo bibliotech + Gradle (`build.gradle.kts`).
+Proyecto Gradle Spring Boot (mismo patrón del zip de referencia).
+
+## Abrir en IntelliJ
+
+1. Descomprime el ZIP
+2. **File → Open** → carpeta con `build.gradle.kts`
+3. Run ▶ en `Application`
+4. Abre: http://localhost:8080/api/projects
+
+## Estructura
 
 ```
-dev.antoniochacon.projects
+dev.antoniochacon.nakano
 ├── Application
-├── model/dto
-├── model/entity
-├── repository
-├── service
-└── controller
+├── controller/ProjectController
+├── model/dto/ProjectDTO, TodoDTO
+├── model/entity/Project, Todo
+├── repository/ProjectRepository
+└── service/ProjectService
 ```
-
-## Correr en IntelliJ
-
-1. Open carpeta con `build.gradle.kts`
-2. Run ▶ en `Application`
-3. Abre: **http://localhost:8090/projects**
-
-Si falla, lee **COMO-CORRER-EN-INTELLIJ.md** (casi siempre es puerto ocupado).

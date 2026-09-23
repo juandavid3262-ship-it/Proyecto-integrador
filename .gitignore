@@ -1,24 +1,13 @@
 # Gradle
 .gradle/
 build/
-!gradle/wrapper/gradle-wrapper.jar
 
 # IntelliJ
-.idea/*
-!.idea/runConfigurations/
-!.idea/runConfigurations/**
+.idea/
 *.iml
-*.ipr
-*.iws
-
-# Maven leftovers
-target/
-.mvn/
-mvnw
-mvnw.cmd
-pom.xml
 
 # Misc
 *.class
 *.log
 .DS_Store
+*.zip
