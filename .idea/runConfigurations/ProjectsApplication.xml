@@ -1,8 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ProjectsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="proyecto-integrador" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.nakano.projects.ProjectsApplication" />
+  <configuration default="false" name="ProjectsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="trabajo-arquitectura.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="dev.nakano.projects.ProjectsApplication" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

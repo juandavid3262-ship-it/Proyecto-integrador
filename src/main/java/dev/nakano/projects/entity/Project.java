@@ -1,4 +1,4 @@
-package com.nakano.projects.entity;
+package dev.nakano.projects.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

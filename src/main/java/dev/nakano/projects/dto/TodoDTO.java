@@ -1,4 +1,4 @@
-package com.nakano.projects.dto;
+package dev.nakano.projects.dto;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;

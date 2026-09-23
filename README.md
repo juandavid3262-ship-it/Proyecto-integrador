@@ -1,39 +1,41 @@
-# Proyecto Integrador — Projects & Todos API
+# Trabajo Arquitectura — Projects & Todos API
 
-API REST en Spring Boot. Lista para abrir y ejecutar en **IntelliJ IDEA**.
+Proyecto Spring Boot con **Gradle** (`build.gradle.kts`), según la estructura indicada.
 
-> Guía detallada: [COMO-CORRER-EN-INTELLIJ.md](COMO-CORRER-EN-INTELLIJ.md)
+## Abrir en IntelliJ
 
-## Requisitos
+1. Descomprime `trabajo-arquitectura.zip`
+2. **File → Open** → carpeta con `build.gradle.kts`
+3. Trust Project / Load Gradle
+4. Run en `dev.nakano.projects.ProjectsApplication`
+5. Abre: http://localhost:8081/projects
 
-- **JDK 17+** (recomendado 17)
-- IntelliJ IDEA (Community o Ultimate)
+## Estructura Gradle
 
-## Cómo abrirlo en IntelliJ IDEA (rápido)
-
-1. Descomprime el ZIP.
-2. **File → Open** → selecciona la carpeta donde está el **`pom.xml`**.
-3. Espera a que Maven cargue dependencias.
-4. Abre `ProjectsApplication.java` → clic en ▶ **Run**.
-5. Abre en el navegador: http://localhost:8081/projects
-
-Si falla, lee [COMO-CORRER-EN-INTELLIJ.md](COMO-CORRER-EN-INTELLIJ.md) (JDK, Maven, puerto 8080).
+```
+build.gradle.kts
+settings.gradle.kts
+src/main/java/dev/nakano/projects/
+  ProjectsApplication.java
+  controller/
+  dto/
+  entity/
+  exception/
+  mapper/
+  repository/
+  service/
+src/main/resources/
+  application.properties
+  data.sql
+```
 
 ## Endpoints
 
 | Método | URL | Descripción |
 |--------|-----|-------------|
-| `GET` | `/projects` | Lista todos los proyectos con sus atributos |
-| `GET` | `/projects/{id}` | Obtiene un proyecto por id |
-| `POST` | `/projects` | Crea un proyecto |
-| `PUT` | `/projects/{id}` | Actualiza un proyecto |
-| `DELETE` | `/projects/{id}` | Elimina un proyecto |
+| GET | `/projects` | Lista proyectos con todos |
+| POST | `/projects` | Crear (valida vacío y duplicados) |
+| PUT | `/projects/{id}` | Actualizar |
+| DELETE | `/projects/{id}` | Eliminar |
 
-## Validaciones
-
-- Nombre vacío → usa `String.isBlank()`
-- Nombre duplicado → no se permite
-
-## Datos iniciales
-
-`data.sql` carga **5 proyectos**, cada uno con **5 todos**.
+Guía: [COMO-CORRER-EN-INTELLIJ.md](COMO-CORRER-EN-INTELLIJ.md)

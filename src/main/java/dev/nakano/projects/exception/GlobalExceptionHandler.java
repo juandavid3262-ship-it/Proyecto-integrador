@@ -1,4 +1,4 @@
-package com.nakano.projects.exception;
+package dev.nakano.projects.exception;
 
 import java.time.Instant;
 import java.util.Map;

@@ -1,9 +1,9 @@
-package com.nakano.projects.mapper;
+package dev.nakano.projects.mapper;
 
-import com.nakano.projects.dto.ProjectDTO;
-import com.nakano.projects.dto.TodoDTO;
-import com.nakano.projects.entity.Project;
-import com.nakano.projects.entity.Todo;
+import dev.nakano.projects.dto.ProjectDTO;
+import dev.nakano.projects.dto.TodoDTO;
+import dev.nakano.projects.entity.Project;
+import dev.nakano.projects.entity.Todo;
 import java.util.List;
 import java.util.stream.Collectors;
 

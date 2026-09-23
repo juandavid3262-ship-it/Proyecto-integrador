@@ -1,4 +1,4 @@
-package com.nakano.projects.dto;
+package dev.nakano.projects.dto;
 
 import java.util.ArrayList;
 import java.util.List;

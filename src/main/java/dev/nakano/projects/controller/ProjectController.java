@@ -1,8 +1,8 @@
-package com.nakano.projects.controller;
+package dev.nakano.projects.controller;
 
-import com.nakano.projects.dto.ProjectDTO;
-import com.nakano.projects.entity.Project;
-import com.nakano.projects.service.ProjectService;
+import dev.nakano.projects.dto.ProjectDTO;
+import dev.nakano.projects.entity.Project;
+import dev.nakano.projects.service.ProjectService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class ProjectController {
     }
 
     /**
-     * Lista todos los proyectos con sus atributos (incluye todos).
+     * Lista todos los proyectos con sus atributos.
      * GET http://localhost:8081/projects
      */
     @GetMapping

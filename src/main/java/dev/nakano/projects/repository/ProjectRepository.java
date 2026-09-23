@@ -1,6 +1,6 @@
-package com.nakano.projects.repository;
+package dev.nakano.projects.repository;
 
-import com.nakano.projects.entity.Project;
+import dev.nakano.projects.entity.Project;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

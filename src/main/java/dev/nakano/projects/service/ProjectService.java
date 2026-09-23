@@ -1,11 +1,11 @@
-package com.nakano.projects.service;
+package dev.nakano.projects.service;
 
-import com.nakano.projects.dto.ProjectDTO;
-import com.nakano.projects.entity.Project;
-import com.nakano.projects.exception.BusinessException;
-import com.nakano.projects.exception.ResourceNotFoundException;
-import com.nakano.projects.mapper.ProjectMapper;
-import com.nakano.projects.repository.ProjectRepository;
+import dev.nakano.projects.dto.ProjectDTO;
+import dev.nakano.projects.entity.Project;
+import dev.nakano.projects.exception.BusinessException;
+import dev.nakano.projects.exception.ResourceNotFoundException;
+import dev.nakano.projects.mapper.ProjectMapper;
+import dev.nakano.projects.repository.ProjectRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,19 +51,12 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    /**
-     * Valida que el nombre del proyecto no esté vacío.
-     * Usa String.isBlank() para cubrir null, vacío y solo espacios.
-     */
     private void validarNombreVacio(String name) {
         if (name == null || name.isBlank()) {
             throw new BusinessException("El nombre del proyecto no puede estar vacío");
         }
     }
 
-    /**
-     * Valida duplicidad: el nombre del proyecto (group) no se repite.
-     */
     private void validarDuplicidad(String name, Long excludeId) {
         boolean duplicated = excludeId == null
                 ? projectRepository.existsByNameIgnoreCase(name.trim())
