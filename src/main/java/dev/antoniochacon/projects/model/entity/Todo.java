@@ -1,4 +1,4 @@
-package dev.nakano.projects.entity;
+package dev.antoniochacon.projects.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;

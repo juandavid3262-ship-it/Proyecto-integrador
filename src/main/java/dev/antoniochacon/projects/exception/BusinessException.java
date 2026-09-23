@@ -1,4 +1,4 @@
-package dev.nakano.projects.exception;
+package dev.antoniochacon.projects.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

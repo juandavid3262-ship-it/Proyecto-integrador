@@ -1,6 +1,6 @@
-package dev.nakano.projects.repository;
+package dev.antoniochacon.projects.repository;
 
-import dev.nakano.projects.entity.Project;
+import dev.antoniochacon.projects.model.entity.Project;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

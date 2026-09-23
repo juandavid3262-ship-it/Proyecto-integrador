@@ -1,8 +1,8 @@
-package dev.nakano.projects.controller;
+package dev.antoniochacon.projects.controller;
 
-import dev.nakano.projects.dto.ProjectDTO;
-import dev.nakano.projects.entity.Project;
-import dev.nakano.projects.service.ProjectService;
+import dev.antoniochacon.projects.model.dto.ProjectDTO;
+import dev.antoniochacon.projects.model.entity.Project;
+import dev.antoniochacon.projects.service.ProjectService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,6 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    /**
-     * Lista todos los proyectos con sus atributos.
-     * GET http://localhost:8081/projects
-     */
     @GetMapping
     public ResponseEntity<List<Project>> listarTodosLosProyectos() {
         return ResponseEntity.ok(projectService.findAllProjects());
@@ -41,8 +37,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<Project> createProject(@RequestBody ProjectDTO projectDTO) {
-        Project created = projectService.createProject(projectDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.createProject(projectDTO));
     }
 
     @PutMapping("/{id}")
