@@ -1,23 +1,21 @@
 # Trabajo Arquitectura — Projects API
 
-Gradle + Spring Boot 4.1, con la misma estructura de paquetes que bibliotech.
-
-## Estructura
+Estructura tipo bibliotech + Gradle (`build.gradle.kts`).
 
 ```
 dev.antoniochacon.projects
 ├── Application
-├── model
-│   ├── dto        → ProjectDTO, TodoDTO (records)
-│   └── entity     → Project, Todo
-├── repository     → ProjectRepository
-├── service        → ProjectService
-└── controller     → ProjectController
+├── model/dto
+├── model/entity
+├── repository
+├── service
+└── controller
 ```
 
-## Abrir en IntelliJ
+## Correr en IntelliJ
 
-1. Descomprime `trabajo-arquitectura.zip`
-2. **File → Open** → carpeta con `build.gradle.kts`
-3. Run en `Application`
-4. http://localhost:8081/projects
+1. Open carpeta con `build.gradle.kts`
+2. Run ▶ en `Application`
+3. Abre: **http://localhost:8090/projects**
+
+Si falla, lee **COMO-CORRER-EN-INTELLIJ.md** (casi siempre es puerto ocupado).
