@@ -15,7 +15,7 @@ API REST en Spring Boot. Lista para abrir y ejecutar en **IntelliJ IDEA**.
 2. **File → Open** → selecciona la carpeta donde está el **`pom.xml`**.
 3. Espera a que Maven cargue dependencias.
 4. Abre `ProjectsApplication.java` → clic en ▶ **Run**.
-5. Abre en el navegador: http://localhost:8080/projects
+5. Abre en el navegador: http://localhost:8081/projects
 
 Si falla, lee [COMO-CORRER-EN-INTELLIJ.md](COMO-CORRER-EN-INTELLIJ.md) (JDK, Maven, puerto 8080).
 

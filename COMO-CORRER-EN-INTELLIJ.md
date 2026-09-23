@@ -16,7 +16,7 @@
    `src/main/java/com/nakano/projects/ProjectsApplication.java`
 8. Clic en el ícono verde ▶ junto a `main` → **Run 'ProjectsApplication'**
 
-La API queda en: http://localhost:8080/projects
+La API queda en: http://localhost:8081/projects
 
 ## Si no te deja correr
 
@@ -56,4 +56,4 @@ server.port=8081
 ./mvnw spring-boot:run
 ```
 
-Luego abre: http://localhost:8080/projects
+Luego abre: http://localhost:8081/projects
