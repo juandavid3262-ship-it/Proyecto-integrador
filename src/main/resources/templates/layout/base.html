@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(titulo, contenido)"
+      th:attr="data-theme=${prefs.temaCss}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
+    <title th:text="${titulo} + ' · Taller Automotriz'">Taller Automotriz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Source+Sans+3:wght@400;600;700&display=swap">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body th:classappend="${prefs.sidebarPlegada} ? 'is-collapsed' : ''">
+<div class="app">
+    <aside class="sidebar">
+        <a class="brand" th:href="@{/inicio}">
+            <span class="brand-mark">TA</span>
+            <span class="brand-text">Taller Automotriz</span>
+        </a>
+        <nav class="nav" th:if="${usuarioActual != null}">
+            <a th:href="@{/inicio}"><span>Inicio</span></a>
+            <a th:if="${usuarioActual.rol.name() == 'ADMINISTRADOR'}" th:href="@{/modelos}"><span>Modelos</span></a>
+            <a th:if="${usuarioActual.rol.name() == 'ADMINISTRADOR' or usuarioActual.rol.name() == 'RECEPCIONISTA'}" th:href="@{/vehiculos}"><span>Vehículos</span></a>
+            <a th:href="@{/vehiculos/buscar}"><span>Buscar placa</span></a>
+            <a th:if="${usuarioActual.rol.name() == 'ADMINISTRADOR'}" th:href="@{/repuestos}"><span>Repuestos</span></a>
+            <a th:if="${usuarioActual.rol.name() == 'ADMINISTRADOR' or usuarioActual.rol.name() == 'MECANICO'}" th:href="@{/repuestos/compatibles}"><span>Compatibles</span></a>
+            <a th:if="${usuarioActual.rol.name() == 'ADMINISTRADOR' or usuarioActual.rol.name() == 'MECANICO'}" th:href="@{/reparaciones}"><span>Reparaciones</span></a>
+            <a th:if="${usuarioActual.rol.name() == 'ADMINISTRADOR'}" th:href="@{/dashboard}"><span>Dashboard</span></a>
+        </nav>
+    </aside>
+    <div class="shell">
+        <header class="topbar">
+            <button class="icon-btn" id="btn-sidebar" type="button" aria-label="Plegar menú">☰</button>
+            <h1 th:text="${titulo}">Taller</h1>
+            <button class="icon-btn" id="btn-tema" type="button"
+                    th:text="${prefs.tema == 'OSCURO'} ? 'Claro' : 'Oscuro'">Oscuro</button>
+            <span class="who" th:if="${usuarioActual != null}"
+                  th:text="${usuarioActual.nombre + ' · ' + usuarioActual.rol.name()}">Usuario</span>
+            <form th:action="@{/logout}" method="post">
+                <button class="btn secondary" type="submit">Salir</button>
+            </form>
+        </header>
+        <div class="content">
+            <p class="alert ok" th:if="${exito}" th:text="${exito}"></p>
+            <p class="alert bad" th:if="${error}" th:text="${error}"></p>
+            <main th:replace="${contenido}">Contenido</main>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

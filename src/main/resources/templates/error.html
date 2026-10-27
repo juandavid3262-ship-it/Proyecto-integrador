@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error · Taller Automotriz</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="login-body">
+<main class="login-card">
+    <p class="eyebrow">Taller automotriz</p>
+    <h1 th:text="${status}">400</h1>
+    <p class="sub" th:text="${message} ?: 'No se pudo completar la solicitud.'">Mensaje</p>
+    <a class="btn" th:href="@{/inicio}">Volver al inicio</a>
+</main>
+</body>
+</html>

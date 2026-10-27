@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Acceso denegado', ~{::main})}">
+<body>
+<main>
+    <section class="panel">
+        <h2>Esta pantalla no corresponde a tu rol</h2>
+        <p class="muted">El administrador, la recepción y los mecánicos ven partes distintas del taller.</p>
+        <a class="btn" th:href="@{/inicio}">Volver al inicio</a>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Buscar por placa', ~{::main})}">
+<body>
+<main>
+    <section class="panel">
+        <h2>Modelo a partir de la placa</h2>
+        <p class="muted">Formato colombiano ABC-123. La búsqueda no distingue mayúsculas.</p>
+        <form method="get" th:action="@{/vehiculos/buscar}" class="filters">
+            <div>
+                <label for="placa">Placa</label>
+                <input id="placa" name="placa" th:value="${placa}" placeholder="ABC-123" maxlength="7" required style="text-transform: uppercase">
+            </div>
+            <button class="btn" type="submit">Buscar</button>
+        </form>
+        <p class="alert bad" th:if="${mensaje}" th:text="${mensaje}">Vehículo no encontrado</p>
+        <div th:if="${vehiculo != null}" style="margin-top: 18px">
+            <p class="eyebrow">Resultado</p>
+            <h2 th:text="${vehiculo.modelo.marca + ' ' + vehiculo.modelo.nombre}">Chevrolet Spark</h2>
+            <p>Placa <span class="placa" th:classappend="${vehiculo.colorPlaca}" th:text="${vehiculo.placa}">ABC-123</span></p>
+            <p>Dueño: <span th:text="${vehiculo.dueno}">Dueño</span></p>
+            <p>Color de placa: <span th:text="${vehiculo.colorPlaca.etiqueta()}">Amarillo</span></p>
+        </div>
+    </section>
+</main>
+</body>
+</html>

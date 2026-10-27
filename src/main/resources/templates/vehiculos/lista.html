@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Vehículos', ~{::main})}">
+<body>
+<main>
+    <div class="grid">
+        <section class="panel">
+            <h2 th:text="${form.id == null} ? 'Nuevo vehículo' : 'Editar vehículo'">Nuevo vehículo</h2>
+            <form th:object="${form}" th:action="${form.id == null} ? @{/vehiculos} : @{/vehiculos/{id}(id=${form.id})}" method="post">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err.defaultMessage}"></p>
+                <label>Placa</label>
+                <input th:field="*{placa}" required maxlength="7" placeholder="ABC-123" style="text-transform: uppercase">
+                <p class="field-error" th:errors="*{placa}"></p>
+                <label>Color de la placa</label>
+                <select th:field="*{colorPlaca}" required>
+                    <option value="">Selecciona</option>
+                    <option th:each="color : ${colores}" th:value="${color}" th:text="${color.etiqueta()}"></option>
+                </select>
+                <p class="field-error" th:errors="*{colorPlaca}"></p>
+                <label>Dueño</label>
+                <input th:field="*{dueno}" required maxlength="100">
+                <p class="field-error" th:errors="*{dueno}"></p>
+                <label>Modelo</label>
+                <select th:field="*{modeloId}" required>
+                    <option value="">Selecciona</option>
+                    <option th:each="modelo : ${catalogoModelos}" th:value="${modelo.id}" th:text="${modelo.etiqueta()}"></option>
+                </select>
+                <p class="field-error" th:errors="*{modeloId}"></p>
+                <div class="form-actions">
+                    <button class="btn" type="submit">Guardar</button>
+                    <a class="btn secondary" th:href="@{/vehiculos}">Limpiar</a>
+                </div>
+            </form>
+        </section>
+        <section class="panel">
+            <table>
+                <thead>
+                <tr><th>Placa</th><th>Color</th><th>Dueño</th><th>Modelo</th><th></th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehiculo : ${vehiculos}">
+                    <td><span class="placa" th:classappend="${vehiculo.colorPlaca}" th:text="${vehiculo.placa}">ABC-123</span></td>
+                    <td th:text="${vehiculo.colorPlaca.etiqueta()}">Amarillo</td>
+                    <td th:text="${vehiculo.dueno}">Dueño</td>
+                    <td th:text="${vehiculo.modelo.etiqueta()}">Chevrolet Spark</td>
+                    <td class="actions">
+                        <a class="btn secondary" th:href="@{/vehiculos/{id}/editar(id=${vehiculo.id})}">Editar</a>
+                        <form th:action="@{/vehiculos/{id}/eliminar(id=${vehiculo.id})}" method="post" onsubmit="return confirm('¿Eliminar este vehículo?');">
+                            <button class="btn danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>
+</body>
+</html>

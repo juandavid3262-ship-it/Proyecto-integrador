@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Repuestos', ~{::main})}">
+<body>
+<main>
+    <div class="grid">
+        <section class="panel">
+            <h2 th:text="${form.id == null} ? 'Nuevo repuesto' : 'Editar repuesto'">Nuevo repuesto</h2>
+            <form th:object="${form}" th:action="${form.id == null} ? @{/repuestos} : @{/repuestos/{id}(id=${form.id})}" method="post">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err.defaultMessage}"></p>
+                <label>Nombre</label>
+                <input th:field="*{nombre}" required maxlength="100">
+                <p class="field-error" th:errors="*{nombre}"></p>
+                <label>Descripción</label>
+                <textarea th:field="*{descripcion}" maxlength="255"></textarea>
+                <label>Precio</label>
+                <input th:field="*{precio}" type="number" min="0.01" step="0.01" required>
+                <p class="field-error" th:errors="*{precio}"></p>
+                <label>Código EAN</label>
+                <input th:field="*{codigoEan}" required minlength="13" maxlength="13" pattern="\d{13}">
+                <p class="field-error" th:errors="*{codigoEan}"></p>
+                <label>Stock</label>
+                <input th:field="*{stock}" type="number" min="0" step="1" required>
+                <p class="field-error" th:errors="*{stock}"></p>
+                <label>URL de la imagen</label>
+                <input th:field="*{imagenUrl}" type="url" maxlength="255" placeholder="https://">
+                <label>Modelo compatible</label>
+                <select th:field="*{modeloId}" required>
+                    <option value="">Selecciona</option>
+                    <option th:each="modelo : ${catalogoModelos}" th:value="${modelo.id}" th:text="${modelo.etiqueta()}"></option>
+                </select>
+                <p class="field-error" th:errors="*{modeloId}"></p>
+                <div class="form-actions">
+                    <button class="btn" type="submit">Guardar</button>
+                    <a class="btn secondary" th:href="@{/repuestos}">Limpiar</a>
+                </div>
+            </form>
+        </section>
+        <section class="panel">
+            <table>
+                <thead>
+                <tr><th></th><th>Nombre</th><th>EAN</th><th>Precio</th><th>Stock</th><th>Modelo</th><th></th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="repuesto : ${repuestos}">
+                    <td><img class="thumb" alt="" th:if="${repuesto.imagenUrl != null}" th:src="${repuesto.imagenUrl}"></td>
+                    <td>
+                        <strong th:text="${repuesto.nombre}">Filtro</strong>
+                        <div class="muted" th:text="${repuesto.descripcion}"></div>
+                    </td>
+                    <td th:text="${repuesto.codigoEan}">770</td>
+                    <td th:text="${#numbers.formatDecimal(repuesto.precio, 1, 'POINT', 2, 'COMMA')}">0</td>
+                    <td th:text="${repuesto.stock}">0</td>
+                    <td th:text="${repuesto.modelo.etiqueta()}">Modelo</td>
+                    <td class="actions">
+                        <a class="btn secondary" th:href="@{/repuestos/{id}/editar(id=${repuesto.id})}">Editar</a>
+                        <form th:action="@{/repuestos/{id}/eliminar(id=${repuesto.id})}" method="post" onsubmit="return confirm('¿Eliminar este repuesto?');">
+                            <button class="btn danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>
+</body>
+</html>

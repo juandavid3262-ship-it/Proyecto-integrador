@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Dashboard', ~{::main})}">
+<body>
+<main>
+    <section class="panel">
+        <form class="filters" method="get" th:action="@{/dashboard}">
+            <div>
+                <label for="desde">Desde</label>
+                <input id="desde" type="date" name="desde" th:value="${dashboard.desde}">
+            </div>
+            <div>
+                <label for="hasta">Hasta</label>
+                <input id="hasta" type="date" name="hasta" th:value="${dashboard.hasta}">
+            </div>
+            <button class="btn" type="submit">Filtrar</button>
+            <a class="btn secondary" th:href="@{/reportes/reparaciones/pdf(desde=${dashboard.desde},hasta=${dashboard.hasta})}">Descargar PDF</a>
+            <a class="btn secondary" th:href="@{/reportes/reparaciones/csv(desde=${dashboard.desde},hasta=${dashboard.hasta})}">Descargar CSV</a>
+        </form>
+    </section>
+    <section class="charts">
+        <article class="panel">
+            <h2>Por estado</h2>
+            <canvas id="grafica-estado" height="220"></canvas>
+        </article>
+        <article class="panel">
+            <h2>Por mes y tipo</h2>
+            <canvas id="grafica-mes" height="220"></canvas>
+        </article>
+    </section>
+    <section class="panel">
+        <h2>Repuestos con stock bajo</h2>
+        <p class="muted">Menos de 5 unidades.</p>
+        <table class="stock-low">
+            <thead>
+            <tr><th>Nombre</th><th>Modelo</th><th>Stock</th><th>Precio</th></tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(dashboard.stockBajo)}">
+                <td colspan="4">No hay repuestos por debajo del mínimo.</td>
+            </tr>
+            <tr th:each="repuesto : ${dashboard.stockBajo}">
+                <td th:text="${repuesto.nombre}">Pastillas</td>
+                <td th:text="${repuesto.modelo.etiqueta()}">Modelo</td>
+                <td th:text="${repuesto.stock}">1</td>
+                <td th:text="${#numbers.formatDecimal(repuesto.precio, 1, 'POINT', 2, 'COMMA')}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <script th:src="@{/js/chart.umd.min.js}"></script>
+    <script th:inline="javascript">
+        const datos = /*[[${datosJson}]]*/ '{"porEstado":[],"porMesYTipo":[]}';
+        const resumen = JSON.parse(datos);
+        const colores = ["#c4622d", "#1c2f24", "#d4a017", "#2457d6", "#1f8a4c"];
+        new Chart(document.getElementById("grafica-estado"), {
+            type: "doughnut",
+            data: {
+                labels: resumen.porEstado.map(item => item.estado),
+                datasets: [{ data: resumen.porEstado.map(item => item.total), backgroundColor: colores }]
+            },
+            options: { plugins: { legend: { position: "bottom" } } }
+        });
+        const meses = [...new Set(resumen.porMesYTipo.map(item => item.mes))];
+        const tipos = [...new Set(resumen.porMesYTipo.map(item => item.tipo))];
+        new Chart(document.getElementById("grafica-mes"), {
+            type: "bar",
+            data: {
+                labels: meses,
+                datasets: tipos.map((tipo, indice) => ({
+                    label: tipo,
+                    backgroundColor: colores[indice % colores.length],
+                    data: meses.map(mes => {
+                        const fila = resumen.porMesYTipo.find(item => item.mes === mes && item.tipo === tipo);
+                        return fila ? fila.total : 0;
+                    })
+                }))
+            },
+            options: { scales: { x: { stacked: true }, y: { stacked: true, ticks: { precision: 0 } } } }
+        });
+    </script>
+</main>
+</body>
+</html>
