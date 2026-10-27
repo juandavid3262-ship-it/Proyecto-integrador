@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Inicio', ~{::main})}">
+<body>
+<main>
+    <section class="cards">
+        <article class="card" th:if="${usuarioActual != null and usuarioActual.rol.name() == 'ADMINISTRADOR'}">
+            <h2>Catálogo</h2>
+            <p>Marcas, modelos y el inventario de repuestos compatibles.</p>
+            <a class="btn" th:href="@{/modelos}">Abrir modelos</a>
+        </article>
+        <article class="card" th:if="${usuarioActual != null and (usuarioActual.rol.name() == 'ADMINISTRADOR' or usuarioActual.rol.name() == 'RECEPCIONISTA')}">
+            <h2>Recepción</h2>
+            <p>Registra el vehículo que llega y su placa colombiana.</p>
+            <a class="btn" th:href="@{/vehiculos}">Abrir vehículos</a>
+        </article>
+        <article class="card">
+            <h2>Placa</h2>
+            <p>Identifica el modelo y la marca a partir de la placa ABC-123.</p>
+            <a class="btn" th:href="@{/vehiculos/buscar}">Buscar placa</a>
+        </article>
+        <article class="card" th:if="${usuarioActual != null and (usuarioActual.rol.name() == 'ADMINISTRADOR' or usuarioActual.rol.name() == 'MECANICO')}">
+            <h2>Taller</h2>
+            <p>Historial de reparaciones y repuestos que sirven para cada modelo.</p>
+            <a class="btn" th:href="@{/reparaciones}">Abrir reparaciones</a>
+        </article>
+        <article class="card" th:if="${usuarioActual != null and usuarioActual.rol.name() == 'ADMINISTRADOR'}">
+            <h2>Desempeño</h2>
+            <p>Gráficas del periodo y descarga del historial en PDF o CSV.</p>
+            <a class="btn" th:href="@{/dashboard}">Abrir dashboard</a>
+        </article>
+    </section>
+</main>
+</body>
+</html>

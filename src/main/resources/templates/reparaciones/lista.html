@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Reparaciones', ~{::main})}">
+<body>
+<main>
+    <div class="grid">
+        <section class="panel">
+            <h2 th:text="${form.id == null} ? 'Nueva reparación' : 'Editar reparación'">Nueva reparación</h2>
+            <form th:object="${form}" th:action="${form.id == null} ? @{/reparaciones} : @{/reparaciones/{id}(id=${form.id})}" method="post">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err.defaultMessage}"></p>
+                <label>Fecha</label>
+                <input th:field="*{fecha}" type="date" required>
+                <p class="field-error" th:errors="*{fecha}"></p>
+                <label>Tipo</label>
+                <input th:field="*{tipo}" required maxlength="40" placeholder="Cambio de aceite">
+                <p class="field-error" th:errors="*{tipo}"></p>
+                <label>Estado</label>
+                <select th:field="*{estado}" required>
+                    <option value="">Selecciona</option>
+                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.etiqueta()}"></option>
+                </select>
+                <p class="field-error" th:errors="*{estado}"></p>
+                <label>Vehículo</label>
+                <select th:field="*{vehiculoId}" required>
+                    <option value="">Selecciona</option>
+                    <option th:each="vehiculo : ${catalogoVehiculos}" th:value="${vehiculo.id}"
+                            th:text="${vehiculo.placa + ' · ' + vehiculo.modelo.etiqueta()}"></option>
+                </select>
+                <p class="field-error" th:errors="*{vehiculoId}"></p>
+                <div th:if="${esAdmin}">
+                    <label>Mecánico</label>
+                    <select th:field="*{mecanicoId}" required>
+                        <option value="">Selecciona</option>
+                        <option th:each="mecanico : ${mecanicos}" th:value="${mecanico.id}" th:text="${mecanico.nombre}"></option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button class="btn" type="submit">Guardar</button>
+                    <a class="btn secondary" th:href="@{/reparaciones}">Limpiar</a>
+                </div>
+            </form>
+        </section>
+        <section class="panel">
+            <p class="muted" th:if="${!esAdmin}">Ves y modificas solo las reparaciones que te corresponden.</p>
+            <table>
+                <thead>
+                <tr><th>Fecha</th><th>Tipo</th><th>Estado</th><th>Placa</th><th>Mecánico</th><th></th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="reparacion : ${reparaciones}">
+                    <td th:text="${reparacion.fecha}">2026-01-01</td>
+                    <td th:text="${reparacion.tipo}">Frenos</td>
+                    <td th:text="${reparacion.estado.etiqueta()}">Terminado</td>
+                    <td th:text="${reparacion.vehiculo.placa}">ABC-123</td>
+                    <td th:text="${reparacion.mecanico.nombre}">Carlos</td>
+                    <td class="actions">
+                        <a class="btn secondary" th:href="@{/reparaciones/{id}/editar(id=${reparacion.id})}">Editar</a>
+                        <form th:action="@{/reparaciones/{id}/eliminar(id=${reparacion.id})}" method="post" onsubmit="return confirm('¿Eliminar esta reparación?');">
+                            <button class="btn danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Modelos', ~{::main})}">
+<body>
+<main>
+    <div class="grid">
+        <section class="panel">
+            <h2 th:text="${form.id == null} ? 'Nuevo modelo' : 'Editar modelo'">Nuevo modelo</h2>
+            <form th:object="${form}" th:action="${form.id == null} ? @{/modelos} : @{/modelos/{id}(id=${form.id})}" method="post">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err.defaultMessage}"></p>
+                <label>Nombre</label>
+                <input th:field="*{nombre}" required maxlength="80">
+                <p class="field-error" th:errors="*{nombre}"></p>
+                <label>Marca</label>
+                <input th:field="*{marca}" required maxlength="60">
+                <p class="field-error" th:errors="*{marca}"></p>
+                <div class="form-actions">
+                    <button class="btn" type="submit">Guardar</button>
+                    <a class="btn secondary" th:href="@{/modelos}">Limpiar</a>
+                </div>
+            </form>
+        </section>
+        <section class="panel">
+            <table>
+                <thead>
+                <tr><th>Marca</th><th>Modelo</th><th></th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="modelo : ${modelos}">
+                    <td th:text="${modelo.marca}">Chevrolet</td>
+                    <td th:text="${modelo.nombre}">Spark</td>
+                    <td class="actions">
+                        <a class="btn secondary" th:href="@{/modelos/{id}/editar(id=${modelo.id})}">Editar</a>
+                        <form th:action="@{/modelos/{id}/eliminar(id=${modelo.id})}" method="post" onsubmit="return confirm('¿Eliminar este modelo?');">
+                            <button class="btn danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>
+</body>
+</html>

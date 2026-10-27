@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout('Repuestos compatibles', ~{::main})}">
+<body>
+<main>
+    <section class="panel">
+        <h2>Repuestos por modelo</h2>
+        <form method="get" th:action="@{/repuestos/compatibles}" class="filters">
+            <div>
+                <label for="modeloId">Modelo</label>
+                <select id="modeloId" name="modeloId" required>
+                    <option value="">Selecciona</option>
+                    <option th:each="modelo : ${catalogoModelos}" th:value="${modelo.id}" th:text="${modelo.etiqueta()}"
+                            th:selected="${modeloId != null and modeloId == modelo.id}"></option>
+                </select>
+            </div>
+            <button class="btn" type="submit">Buscar</button>
+        </form>
+        <p class="alert bad" th:if="${error}" th:text="${error}"></p>
+        <table th:if="${repuestos != null}" style="margin-top: 18px">
+            <thead>
+            <tr><th></th><th>Nombre</th><th>Precio</th><th>Stock</th></tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(repuestos)}">
+                <td colspan="4">Este modelo no tiene repuestos compatibles.</td>
+            </tr>
+            <tr th:each="repuesto : ${repuestos}">
+                <td><img class="thumb" alt="" th:if="${repuesto.imagenUrl != null}" th:src="${repuesto.imagenUrl}"></td>
+                <td th:text="${repuesto.nombre}">Nombre</td>
+                <td th:text="${#numbers.formatDecimal(repuesto.precio, 1, 'POINT', 2, 'COMMA')}">0</td>
+                <td th:text="${repuesto.stock}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>
