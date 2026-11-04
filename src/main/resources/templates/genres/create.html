@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <title>Crear género - Bibliotech</title>
+</head>
+<body>
+<h1>Crear género</h1>
+
+<form method="post" th:action="@{/genres}">
+    <input type="text" name="name" placeholder="Nombre" required/>
+    <button type="submit">Crear</button>
+</form>
+</body>
+</html>
