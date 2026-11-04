@@ -1,6 +1,7 @@
 .gradle/
 build/
-.idea/
+.idea/workspace.xml
+.idea/shelf/
 *.iml
 *.class
 *.log
