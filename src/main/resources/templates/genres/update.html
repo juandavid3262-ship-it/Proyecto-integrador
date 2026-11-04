@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <title>Actualizar género - Bibliotech</title>
+</head>
+<body>
+<h1>Actualizar género</h1>
+
+<form th:method="put" th:action="@{/genres/{id}(id=${genre.genreId})}" th:object="${genre}">
+    <label>
+        Nombre
+        <input type="text" th:field="*{name}" required/>
+    </label>
+    <button type="submit">Actualizar</button>
+</form>
+
+<a href="/genres">Volver</a>
+</body>
+</html>

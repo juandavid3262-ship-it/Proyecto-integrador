@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Crear Libro</h1>
+
+    <form method="post" th:action="@{/books}" th:object="${productRequest}">
+        <label>
+            ISBN
+            <input type="text" name="isbn" placeholder="ISBN" required/>
+        </label>
+        <label>
+            Titulo
+            <input type="text" name="title" placeholder="Título" required/>
+        </label>
+        <label>
+            Autor
+            <input type="text" name="author" placeholder="Autor" required/>
+        </label>
+        <label>
+            Género
+            <select name="genre" required>
+                <option th:each="genre : ${genres}" th:values="${genre.getName()}" th:text="${genre.getName()}"/>
+            </select>
+        </label>
+        <label>
+            Formato
+            <select name="format" required>
+                <option th:each="format : ${formats}" th:values="${format}" th:text="${format}"/>
+            </select>
+        </label>
+        <label>
+            Cantidad
+            <input type="number" name="quantity" min="0" placeholder="Cantidad" required/>
+        </label>
+        <button type="submit">Crear</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- resources/templates/books/list.html -->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css">
+    <meta charset="UTF-8">
+    <title>Libros - Bibliotech</title>
+</head>
+<body>
+<h1>Libros</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ISBN</th>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Género</th>
+        <th>Formato</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.isbn}"></td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.genre?.name}"></td>
+        <td th:text="${book.format}"></td>
+        <td th:text="${book.quantity}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

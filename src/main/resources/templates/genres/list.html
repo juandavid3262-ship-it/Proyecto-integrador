@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <title>Géneros - Bibliotech</title>
+</head>
+<body>
+<h1>Géneros</h1>
+
+<a href="/genres/create">Crear</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="genre : ${genres}">
+            <td th:text="${genre.genreId}"></td>
+            <td th:text="${genre.name}"></td>
+            <td>
+                <a th:href="@{/genres/edit/{id}(id=${genre.getGenreId()})}">
+                    Editar
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
