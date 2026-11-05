@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automatizador de correos</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div>
+      <p class="sobre">Automatizador de correos</p>
+      <h1>El mismo mensaje, un correo por persona.</h1>
+      <p class="bajada">Escribes el contenido una vez. Cada destinatario lo recibe en su propio envío, solo en el campo Para, sin copias.</p>
+    </div>
+    <div class="sello" aria-live="polite">
+      <span id="cuenta-numero">0</span>
+      <small>correos válidos</small>
+    </div>
+  </header>
+
+  <p id="aviso" class="aviso" role="alert" hidden></p>
+
+  <main class="rejilla">
+    <section class="tarjeta" aria-labelledby="titulo-cuenta">
+      <p class="paso">1</p>
+      <h2 id="titulo-cuenta">Cuenta que envía</h2>
+      <div class="presets" role="group" aria-label="Proveedor">
+        <button type="button" class="pastilla" data-preset="gmail">Gmail</button>
+        <button type="button" class="pastilla" data-preset="outlook">Outlook</button>
+        <button type="button" class="pastilla" data-preset="yahoo">Yahoo</button>
+      </div>
+      <p class="ayuda">En Gmail la clave es una contraseña de aplicación, no la de iniciar sesión. Una cuenta personal suele permitir cerca de 500 correos al día: un lote de 408 cabe si hoy no enviaste otros.</p>
+      <div class="campos">
+        <label>Servidor SMTP
+          <input id="host" name="host" autocomplete="off" placeholder="smtp.gmail.com">
+        </label>
+        <label>Puerto
+          <input id="puerto" name="puerto" inputmode="numeric" value="587">
+        </label>
+        <label>Cifrado
+          <select id="cifrado" name="cifrado">
+            <option value="starttls">STARTTLS (587)</option>
+            <option value="ssl">SSL (465)</option>
+            <option value="ninguno">Sin cifrado</option>
+          </select>
+        </label>
+        <label>Usuario
+          <input id="usuario" name="usuario" autocomplete="username" placeholder="tu_correo@gmail.com">
+        </label>
+        <label>Clave
+          <input id="clave" name="clave" type="password" autocomplete="current-password">
+        </label>
+        <label id="bloque-clave-entorno" class="check ancho" hidden>
+          <input id="usar-clave-entorno" type="checkbox">
+          Usar la clave guardada en el archivo .env de este computador
+        </label>
+        <label>Remitente
+          <input id="remitente" name="remitente" autocomplete="email" placeholder="El mismo usuario, si lo dejas vacío">
+        </label>
+        <label>Nombre visible
+          <input id="nombre-remitente" name="nombre-remitente" autocomplete="name" placeholder="Tu nombre">
+        </label>
+      </div>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="titulo-mensaje">
+      <p class="paso">2</p>
+      <h2 id="titulo-mensaje">Mensaje</h2>
+      <p class="ayuda">Si no usas {{nombre}} ni {{email}}, todas las personas reciben el texto exacto. Esos marcadores son lo único que cambia de un correo a otro.</p>
+      <div class="campos una">
+        <label>Asunto
+          <input id="asunto" name="asunto" maxlength="300" placeholder="Asunto que verán todos">
+        </label>
+        <label>Cuerpo
+          <textarea id="texto" name="texto" rows="12" placeholder="Escribe aquí el contenido."></textarea>
+        </label>
+      </div>
+      <details>
+        <summary>Versión HTML opcional</summary>
+        <label class="pila">HTML
+          <textarea id="html" name="html" rows="6" placeholder="<p>El mismo contenido, con formato.</p>"></textarea>
+        </label>
+      </details>
+      <aside id="vista" class="vista" hidden>
+        <p id="vista-titulo"></p>
+        <article>
+          <h3 id="vista-asunto"></h3>
+          <pre id="vista-texto"></pre>
+        </article>
+        <article id="vista-segunda" hidden>
+          <h3 id="vista-asunto-2"></h3>
+          <pre id="vista-texto-2"></pre>
+        </article>
+      </aside>
+    </section>
+
+    <section class="tarjeta ancho" aria-labelledby="titulo-lista">
+      <p class="paso">3</p>
+      <h2 id="titulo-lista">Destinatarios</h2>
+      <p class="ayuda">Un correo por línea, o un CSV con columnas nombre y correo. El punto y coma de Excel también sirve. Los repetidos se envían una sola vez.</p>
+      <div class="fila-acciones">
+        <label class="archivo">Subir CSV o TXT
+          <input id="archivo" type="file" accept=".csv,.txt,text/plain,text/csv">
+        </label>
+        <button type="button" id="boton-ejemplo" class="secundario">Cargar 3 de ejemplo</button>
+      </div>
+      <label class="pila">Lista
+        <textarea id="lista" name="lista" rows="10" placeholder="Ana Gómez &lt;ana@correo.com&gt;&#10;luis@correo.com"></textarea>
+      </label>
+      <div id="resumen-lista" class="resumen" aria-live="polite"></div>
+      <ul id="invalidos" class="problemas" hidden></ul>
+    </section>
+
+    <section class="tarjeta ancho" aria-labelledby="titulo-enviar">
+      <p class="paso">4</p>
+      <h2 id="titulo-enviar">Enviar</h2>
+      <div class="campos">
+        <label>Pausa entre correos (segundos)
+          <input id="pausa" name="pausa" type="number" min="0" max="120" step="0.5" value="2">
+        </label>
+        <label>Correo de prueba
+          <input id="prueba-destino" type="email" placeholder="tu_otro_correo@gmail.com">
+        </label>
+        <label class="check ancho">
+          <input id="reanudar" type="checkbox">
+          Si este lote se cortó, no repetir los que ya salieron
+        </label>
+      </div>
+      <p id="estimacion" class="ayuda"></p>
+      <p id="aviso-limite" class="ayuda aviso-suave" hidden></p>
+      <div class="fila-acciones">
+        <button type="button" id="boton-prueba" class="secundario">Enviar prueba</button>
+        <button type="button" id="boton-simular" class="secundario">Simular</button>
+        <button type="button" id="boton-enviar" class="principal">Enviar correos, uno por uno</button>
+      </div>
+    </section>
+  </main>
+
+  <section id="progreso" class="progreso" aria-live="polite" hidden>
+    <div class="progreso-cabeza">
+      <div>
+        <h2>Bitácora</h2>
+        <p id="estado-texto">Sin envíos todavía.</p>
+      </div>
+      <div class="fila-acciones">
+        <a id="descargar" href="/api/resultados.csv">Descargar CSV</a>
+        <button type="button" id="boton-detener" class="peligro" hidden>Detener</button>
+      </div>
+    </div>
+    <div class="barra" aria-hidden="true"><span id="barra-avance"></span></div>
+    <p id="progreso-numeros" class="numeros"></p>
+    <div class="tabla-envoltorio">
+      <table>
+        <thead>
+          <tr>
+            <th>Hora (Colombia)</th>
+            <th>Correo</th>
+            <th>Estado</th>
+            <th>Detalle</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-resultados"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <dialog id="confirma">
+    <form method="dialog">
+      <h2>Confirmar envío</h2>
+      <p>Se enviarán <strong id="confirma-cantidad">0</strong> correos por separado. Cada persona queda sola en Para. La pausa será de <strong id="confirma-pausa">2</strong> segundos.</p>
+      <p id="confirma-identico"></p>
+      <label class="check">
+        <input id="acepto-envio" type="checkbox">
+        Confirmo que estas personas deben recibir este correo.
+      </label>
+      <label class="pila">Escribe el número de correos para confirmar
+        <input id="numero-confirma" inputmode="numeric" autocomplete="off">
+      </label>
+      <p id="error-confirma" class="error-dialogo"></p>
+      <div class="fila-acciones">
+        <button type="button" id="boton-cancelar" class="secundario" value="cancel">Cancelar</button>
+        <button type="button" id="boton-confirmar" class="principal" disabled>Enviar ahora</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
